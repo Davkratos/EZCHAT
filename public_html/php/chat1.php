@@ -2,248 +2,250 @@
 
 //--Initializing Arrays--//
 
-	$User = [];
-	$id = [];
-	$Message = [];
-
-
+$User = [];
+$id = [];
+$Message = [];
 
 //--Check if Username has been send--//
 
-	if (isset($_POST["submit"])) {
+if (isset($_POST["submit"])) {
 
-		$username = strtolower($_POST["username"]);
+    $username = strtolower($_POST["username"]);
 
-        $username = ucfirst($username);
+    $username = ucfirst($username);
 
-        //--Check if there are already users--//
+    //--Check if there are already users--//
 
-		if (filesize('chat1_users.txt') == 0) {
+    if (filesize('chat1_users.txt') == 0) {
 
-			$file = fopen("chat1_users.txt", "r+");
+        $file = fopen("chat1_users.txt", "r+");
 
-			fwrite($file, $username . ";");
+        fwrite($file, $username . ";");
 
-			fclose($file);
+        fclose($file);
 
-			$User = explode(";", file_get_contents('chat1_users.txt'));
+        $User = explode(";", file_get_contents('chat1_users.txt'));
 
-		} else {
+    } else {
 
-            //--Check if Username already exists--//
+        //--Check if Username already exists--//
 
-			$User = explode(";", file_get_contents('chat1_users.txt'));
+        $User = explode(";", file_get_contents('chat1_users.txt'));
 
-			if (in_array($username, $User)) {
+        if (in_array($username, $User)) {
 
-				echo '<script type="text/javascript">alert("Username already exists!");</script>';
+            echo '<script type="text/javascript">alert("Username already exists!");</script>';
 
-				echo '<script type="text/javascript">location.replace("http://ezchat.ml/pages/chatroom1.html")</script>';
+            echo '<script type="text/javascript">location.replace("http://localhost/public_html/index.php?page=index")</script>';
 
-			} else {
+        } else {
 
-				$file = fopen("chat1_users.txt", "r+");
+            $file = fopen("chat1_users.txt", "r+");
 
-				$temp = file_get_contents("chat1_users.txt");
+            $temp = file_get_contents("chat1_users.txt");
 
-				fwrite($file, $temp . $username . ";");
+            fwrite($file, $temp . $username . ";");
 
-				fclose($file);
+            fclose($file);
 
-				$User = explode(";", file_get_contents('chat1_users.txt'));
+            $User = explode(";", file_get_contents('chat1_users.txt'));
 
-			}
-		}
-
-
-		//Assigning ID to users//
-
-		for ($i = 0; $i <= count($User); $i++) {
-
-			$id[$i] = $i;
-			$UserId = array_combine($id, $User);
-			echo "<pre>" . print_r($UserId, true) . "</pre>";
-		}
-
-
-		//Log In Screen//
-
-		if (in_array($username, $UserId)) {
-
-			echo '<script type="text/javascript">alert("Logging in...");</script>';
-
-		}
-
-        foreach ($UserId as $id => $name) {
-
-            if ($username == $name) {
-
-                $key = $id;
-            }
         }
-	}
+    }
 
-	//--Check if Message has been sent--//
+    //Assigning ID to users//
 
-	if (isset($_POST["DATA_SENT"])) {
+    for ($i = 0; $i <= count($User); $i++) {
 
-		$Message = strip_tags($_POST["text"]);
-		$UserMessage = $_POST["username"];
-        $time = date('H:i:s');
+        $id[$i] = $i;
+        $UserId = array_combine($id, $User);
+        echo "<pre>" . print_r($UserId, true) . "</pre>";
+    }
 
-		if (filesize('chat.txt') == 0) {
+    //Log In Screen//
 
-			$file = fopen("chat.txt", "r+");
+    if (in_array($username, $UserId)) {
 
-			fwrite($file, "<div style='background-color: lightgray; opacity: 15%;margin-top: 2%; border-radius:20px'><b><div style='float: left; padding: 2%'>" . $UserMessage . "</div></b><div style='padding-top: 2%'>&nbsp;&nbsp;&nbsp;" . $time . "</div>". "<br><div style='padding-left: 2%'>" . $Message . "</div><br></div>");
+        echo '<script type="text/javascript">alert("Logging in...");</script>';
 
-			fclose($file);
-		} else {
+    }
 
-			$file = fopen("chat.txt", "r+");
+    //foreach ($UserId as $id => $name) {
 
-			$temp = file_get_contents("chat.txt");
+        //if ($username == $name) {
 
-			fwrite($file, $temp . "<div style='background-color: lightgray; opacity: 15%; margin-top: 2%; border-radius:20px'><b><div style='float: left; padding: 2%'>" . $UserMessage . "</div></b><div style='padding-top: 2%'>&nbsp;&nbsp;&nbsp;" . $time . "</div>". "<br><div style='padding-left: 2%'>" . $Message . "</div><br></div>");
+            //$key = $id;
+        //}
+    //}
+}
 
-			fclose($file);
+//--Check if Message has been sent--//
 
-		}
-	}
+if (isset($_POST["DATA_SENT"])) {
 
-	$username = $_POST["username"];
+    $Message = strip_tags($_POST["text"]);
+    $UserMessage = $_POST["username"];
+    $time = date('H:i:s');
+
+    if (filesize('chat.txt') == 0) {
+
+        $file = fopen("chat.txt", "r+");
+
+        fwrite($file, "<div style='background-color: lightgray; opacity: 15%;margin-top: 2%; border-radius:20px'><b><div style='float: left; padding: 2%'>" . $UserMessage . "</div></b><div style='padding-top: 2%'>&nbsp;&nbsp;&nbsp;" . $time . "</div>" . "<br><div style='padding-left: 2%'>" . $Message . "</div><br></div>");
+
+        fclose($file);
+    } else {
+
+        $file = fopen("chat.txt", "r+");
+
+        $temp = file_get_contents("chat.txt");
+
+        fwrite($file, $temp . "<div style='background-color: lightgray; opacity: 15%; margin-top: 2%; border-radius:20px'><b><div style='float: left; padding: 2%'>" . $UserMessage . "</div></b><div style='padding-top: 2%'>&nbsp;&nbsp;&nbsp;" . $time . "</div>" . "<br><div style='padding-left: 2%'>" . $Message . "</div><br></div>");
+
+        fclose($file);
+
+    }
+}
+
+$username = $_POST["username"];
 
 
-	$Current = [];
+$Current = [];
 
-	$file_open = fopen("chat1_users.txt", "r+");
+$file_open = fopen("chat1_users.txt", "r+");
 
-	while (!feof($file_open)) {
+while (!feof($file_open)) {
 
-		$text = fgets($file_open);
-		$Current = explode(';', $text);
+    $text = fgets($file_open);
+    $Current = explode(';', $text);
 
-	}
-	fclose($file_open);
+}
+fclose($file_open);
 
 
-	$file_open = fopen("chat.txt", "r+");
+$file_open = fopen("chat.txt", "r+");
 
-	while (!feof($file_open)) {
+while (!feof($file_open)) {
 
-		$text = fgets($file_open);
-		$Chat = explode(';', $text);
+    $text = fgets($file_open);
+    $Chat = explode(';', $text);
 
-	}
+}
 
-	fclose($file_open);
+fclose($file_open);
 
-	if(isset($_POST["DATA_Logout"])){
+if (isset($_POST["DATA_Logout"])) {
 
-		$logoutUser = $_POST["userLogout"];
+    $logoutUser = $_POST["userLogout"];
 
-		$file_open = fopen("chat1_users.txt", "r+");
+    $file_open = fopen("chat1_users.txt", "r+");
 
-		while (!feof($file_open)) {
+    while (!feof($file_open)) {
 
-			$text = fgets($file_open);
-			$Current = explode(';', $text);
+        $text = fgets($file_open);
+        $Current = explode(';', $text);
 
-		}
+    }
 
-		fclose($file_open);
+    fclose($file_open);
 
-		for($j = 0; $j < count($Current); $j++){
+    for ($j = 0; $j < count($Current); $j++) {
 
-			if($Current[$j] == $logoutUser)	unset($Current[$j]);
+        if ($Current[$j] == $logoutUser) unset($Current[$j]);
 
-		}
+    }
 
-		echo $Current . "<br>";
+    echo $Current . "<br>";
 
-		$Current = implode(";", $Current);
+    $Current = implode(";", $Current);
 
-		echo $Current;
+    echo $Current;
 
-		file_put_contents("chat1_users.txt", $Current);
+    file_put_contents("chat1_users.txt", $Current);
 
-		echo '<script type="text/javascript">alert("Logged Out...");</script>';
+    echo '<script type="text/javascript">alert("Logged Out...");</script>';
 
-		echo '<script type="text/javascript">location.replace("http://ezchat.ml/pages/chatroom1.html")</script>';
+    echo '<script type="text/javascript">location.replace("http://ezchat.ml/pages/chatroom1.php")</script>';
 
-	}
+}
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title>Chatroom 1</title>
-		<link rel="stylesheet" href="../style/style.css" type="text/css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Chatroom 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/Responsive.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
 
-		<script>
-            setTimeout("callButton()",100);
-            function callButton()
-            {
-                document.getElementById("content").innerHTML = "<?php include_once('chat.txt');?>";
-            }
-		</script>
+<script>
+    setTimeout("callButton()", 100);
 
-	</head>
-	<body>
+    function callButton() {
+        document.getElementById("content").innerHTML = "<?php include_once('chat.txt');?>";
+    }
+</script>
 
-    <div class="row">
-        <?php include_once("../pages/nav.html") ?>
-        <div id="header">
-            <h1>EzChat LU | Chatroom 1</h1>
-        </div>
+<div class="row">
+    <?php include_once("../pages/nav.php") ?>
+    <div id="header">
+        <h1>EzChat LU | Chatroom 1</h1>
+    </div>
+</div>
+
+<section>
+
+    <div id="guests">
+
+        <p id="UsersArray">
+
+            <?php
+            echo "<pre>" . print_r($Current, true) . "</pre>";
+            ?>
+
+        </p>
+
+        <form method="post">
+
+            <?php
+
+            echo "<input hidden type='text' name='userLogout' value=" . $username . "><br>";
+            echo "<input type='submit' name='DATA_Logout' value='Logout'>";
+
+            ?>
+
+        </form>
+
     </div>
 
-		<section>
-			<div id="guests">
+    <form method="post" action="chat1.php">
+        <div class="chat">
+            <div id="chatContent">
 
-				<p id="UsersArray">
+                <div id="content">
 
-					<?php
-						echo "<pre>" . print_r($Current, true) . "</pre>";
-					?>
+                </div>
 
-				</p>
+                <div id="chatEnter">
+                    <input name="text" id="enterText" placeholder="Enter your message" type="text">
+                    <button type="submit" name="DATA_SENT">Send Message</button>
+                    <?php
 
-				<form method="post">
+                    echo "<br><input hidden type='text' name='username' value=" . $username . ">"
 
-					<?php
+                    ?>
+                </div>
 
-						echo "<input hidden type='text' name='userLogout' value=" . $username . "><br>";
-						echo "<input type='submit' name='DATA_Logout' value='Logout'>";
+            </div>
 
-					?>
+        </div>
 
-				</form>
+    </form>
+</section>
 
-			</div>
-			<form method="post" action="chat1.php">
-				<div class="chat">
-					<div id="chatContent">
-
-						<div id="content">
-
-                        </div>
-						<div id="chatEnter">
-							<input name="text" id="enterText" placeholder="Enter your message" type="text">
-							<button type="submit" name="DATA_SENT">Send Message</button>
-							<?php
-
-								echo "<br><input hidden type='text' name='username' value=" . $username . ">"
-
-							?>
-						</div>
-					</div>
-				</div>
-			</form>
-		</section>
-
-	</body>
+</body>
 </html>

@@ -1,0 +1,1 @@
+<p>Copyright 2019 WSERS Chatprogram Project</p>

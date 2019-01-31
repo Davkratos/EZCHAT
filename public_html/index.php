@@ -10,12 +10,37 @@
 <body>
 
 <div class="row">
-    <?php include_once("./nav.html") ?>
 
-    <div id="header">
-        <h1 style="color: white">EzChat LU</h1>
-    </div>
+    <?php include_once("./pages/nav.php") ?>
+
 </div>
+
+<?php
+
+$currentPage = "";
+
+if(isset($_GET['page'])){
+
+$currentPage = $_GET['page'];
+
+}
+
+if($currentPage === 'Chat1'){
+
+include_once "./pages/chatroom1.php";
+
+}elseif ($currentPage === 'Chat2'){
+
+include_once "./pages/chatroom2.php";
+
+}else{
+
+include_once "index.php";
+
+}
+include_once "./pages/footer.php";
+
+?>
 
 <script>
     function myFunction() {

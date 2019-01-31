@@ -89,7 +89,7 @@ li a:hover:not(.active) {
     background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
     background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
     position: absolute;
-    width: 20%;
+    width: 50%;
     top:16%;
     left:22%;
     height: 500px;
@@ -102,6 +102,7 @@ li a:hover:not(.active) {
     margin-left: 4%;
     margin-top: 7%;
 }
+
 
 #chatOutput{
     width: 75%;
@@ -162,11 +163,13 @@ p { margin: 0; }
 }
 .clearfix:after { clear: both; }
 
-#Content {
-
-    width: 50%;
-    margin-left: 25%;
-    height: 200px;
+#content {
+    overflow-y: scroll;
+    width: 85%;
+    padding-left: 5%;
+    padding-right: 5%;
+    height: 393px;
+    background: white;
 
 }
 

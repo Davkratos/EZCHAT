@@ -14,6 +14,7 @@
 
 		$username = strtolower($_POST["username"]);
 
+        $username = ucfirst($username);
 
         //--Check if there are already users--//
 
@@ -28,7 +29,6 @@
 			$User = explode(";", file_get_contents('chat1_users.txt'));
 
 		} else {
-
 
             //--Check if Username already exists--//
 
@@ -62,6 +62,7 @@
 
 			$id[$i] = $i;
 			$UserId = array_combine($id, $User);
+			echo "<pre>" . print_r($UserId, true) . "</pre>";
 		}
 
 
@@ -72,6 +73,14 @@
 			echo '<script type="text/javascript">alert("Logging in...");</script>';
 
 		}
+
+        foreach ($UserId as $id => $name) {
+
+            if ($username == $name) {
+
+                $key = $id;
+            }
+        }
 	}
 
 	//--Check if Message has been sent--//
@@ -173,19 +182,24 @@
 		<title>Chatroom 1</title>
 		<link rel="stylesheet" href="../style/style.css" type="text/css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+		<script>
+            setTimeout("callButton()",100);
+            function callButton()
+            {
+                document.getElementById("content").innerHTML = "<?php include_once('chat.txt');?>";
+            }
+		</script>
+
 	</head>
+	<body>
 
-	<body onload="callButton()">
-
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<ul class="nav navbar-nav">
-					<li><a href="../index.php">Chatroomprogram</a></li>
-					<li><a class="active" href="../pages/chatroom1.html">Chatroom 1</a></li>
-					<li><a href="../pages/chatroom2.html">Chatroom 2</a></li>
-				</ul>
-			</div>
-		</nav>
+    <div class="row">
+        <?php include_once("../pages/nav.html") ?>
+        <div id="header">
+            <h1>EzChat LU | Chatroom 1</h1>
+        </div>
+    </div>
 
 		<section>
 			<div id="guests">
@@ -210,14 +224,16 @@
 				</form>
 
 			</div>
-			<form method="post" action="./index.php">
+			<form method="post" action="chat1.php">
 				<div class="chat">
 					<div id="chatContent">
-						<div id="content"></div>
+
+						<div id="content">
+
+                        </div>
 						<div id="chatEnter">
 							<input name="text" id="enterText" placeholder="Enter your message" type="text">
 							<button type="submit" name="DATA_SENT">Send Message</button>
-                            <button type="button" id="myButtonId" onclick="callButton()">Reload Chat</button>
 							<?php
 
 								echo "<br><input hidden type='text' name='username' value=" . $username . ">"
@@ -229,17 +245,5 @@
 			</form>
 		</section>
 
-        <script>
-
-            function callButton()
-            {
-                document.getElementById("content").innerHTML = "<?php $ChatContent = file_get_contents("chat.txt"); echo $ChatContent?>";
-                alert("Functon has been clicked");
-            }
-
-        </script>
-
 	</body>
-
-
 </html>
